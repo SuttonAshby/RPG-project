@@ -3,8 +3,13 @@
   "version": "1.0.0",
   "description": "RPG game",
   "main": "index.js",
+  "engines": {
+    "node": "8.9.4",
+    "npm": "5.8.0"
+  },
   "scripts": {
-    "test": "node_modules/mocha/bin/mocha ./tests"
+    "test": "node_modules/mocha/bin/mocha ./tests",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -31,7 +36,8 @@
     "sequelize": "^4.37.7",
     "should": "^13.2.1",
     "superagent": "^3.8.3",
-    "supertest": "^3.1.0"
+    "supertest": "^3.1.0",
+    "negotiator": "0.6.1"
   },
   "devDependencies": {
     "chai-http": "^4.0.0"

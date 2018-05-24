@@ -28,24 +28,26 @@ $(document).ready(function () {
             $(".endBtn").click("click", game.skillSubmit)
 
             //need to zero out checks
-
+            // game.current.playerLeveled = false;
+            // game.current.canAttack = false;
             game.setPlayer()
         },
         setPlayer: function () {
 
+
             game.player = JSON.parse(sessionStorage.getItem("user"));
             game.current.MaxPlayerHealth = 25 + (5 * game.player.health)
             game.current.playerHealth = game.current.MaxPlayerHealth
+            $("#playerAvatar").attr("src", `/assets/${game.player.avatarID}.png`)
             $("#playerName").text(game.player.username)
             $("#playerTextHP").html(`
-        Level: ${game.player.level}
-        <br>Experience: ${game.player.experience}/100
-        <br>Strength: ${game.player.strength}
-        <br>Speed: ${game.player.speed}
-        <br>Current Health: ${game.current.playerHealth}/${game.current.MaxPlayerHealth}`)
+                Level: ${game.player.level}
+                <br>Experience: ${game.player.experience}/100
+                <br>Strength: ${game.player.strength}
+                <br>Speed: ${game.player.speed}
+                <br>Current Health: ${game.current.playerHealth}/${game.current.MaxPlayerHealth}`)
 
             game.getOpponent()
-
         },
         getOpponent: function () {
             var data = {
@@ -62,15 +64,17 @@ $(document).ready(function () {
                 game.current.MaxOpponentHealth = 25 + (5 * game.opponent.health)
                 game.current.opponentHealth = game.current.MaxOpponentHealth
 
+                $("#opponentAvatar").attr("src", `/assets/${game.opponent.avatarID}.png`)
                 $("#opponentName").text(game.opponent.username)
                 $("#opponentTextHP").html(`
-            Level: ${game.opponent.level}
-            <br>Experience: ${game.opponent.experience}/100
-            <br>Strength: ${game.opponent.strength}
-            <br>Speed: ${game.opponent.speed}
-            <br>Current Health: ${game.current.opponentHealth}/${game.current.MaxOpponentHealth}`)
+                    Level: ${game.opponent.level}
+                    <br>Experience: ${game.opponent.experience}/100
+                    <br>Strength: ${game.opponent.strength}
+                    <br>Speed: ${game.opponent.speed}
+                    <br>Current Health: ${game.current.opponentHealth}/${game.current.MaxOpponentHealth}`)
 
                 game.setLoss()
+                game.updateHealthDisplay()
             });
         },
         update: function (character) {
@@ -81,7 +85,6 @@ $(document).ready(function () {
             });
         },
         setLoss: function () {
-            console.log("setloss running")
             game.player.losses++
             game.update(game.player)
 
@@ -91,7 +94,6 @@ $(document).ready(function () {
             game.combatLoop()
         },
         setWin: function () {
-            console.log("setwin running")
             game.player.losses--
             game.player.wins++
             game.update(game.player)
@@ -121,47 +123,138 @@ $(document).ready(function () {
         },
         getComputerChoice: function () {
             var choice = Math.random()
-            if ((100 / game.current.MaxOpponentHealth) * game.current.opponentHealth >= 75) {
-                if (choice >= .75) {
-                    game.computerChoice = "heavy";
-                } else if (choice >= .50) {
-                    game.computerChoice = "fast";
-                } else if (choice >= .25) {
-                    game.computerChoice = "block";
+            if(game.opponent.avatarID === 1){
+                //strength
+                if ((100 / game.current.MaxOpponentHealth) * game.current.opponentHealth >= 75) {
+                    if (choice >= .60) {
+                        game.computerChoice = "heavy";
+                    } else if (choice >= .50) {
+                        game.computerChoice = "fast";
+                    } else if (choice >= .20) {
+                        game.computerChoice = "block";
+                    } else {
+                        game.computerChoice = "dodge"
+                    }
+                } else if ((100 / game.current.MaxOpponentHealth) * game.current.opponentHealth >= 50) {
+                    if (choice >= .80) {
+                        game.computerChoice = "heavy";
+                    } else if (choice >= .60) {
+                        game.computerChoice = "fast";
+                    } else if (choice >= .30) {
+                        game.computerChoice = "block";
+                    } else {
+                        game.computerChoice = "dodge"
+                    }
+                } else if ((100 / game.current.MaxOpponentHealth) * game.current.opponentHealth >= 25) {
+                    if (choice >= .85) {
+                        game.computerChoice = "heavy";
+                    } else if (choice >= .65) {
+                        game.computerChoice = "fast";
+                    } else if (choice >= .35) {
+                        game.computerChoice = "block";
+                    } else {
+                        game.computerChoice = "dodge"
+                    }
                 } else {
-                    game.computerChoice = "dodge"
+                    if (choice >= .90) {
+                        game.computerChoice = "heavy";
+                    } else if (choice >= .80) {
+                        game.computerChoice = "fast";
+                    } else if (choice >= .40) {
+                        game.computerChoice = "block";
+                    } else {
+                        game.computerChoice = "dodge"
+                    }
                 }
-            } else if ((100 / game.current.MaxOpponentHealth) * game.current.opponentHealth >= 50) {
-                if (choice >= .85) {
-                    game.computerChoice = "heavy";
-                } else if (choice >= .60) {
-                    game.computerChoice = "fast";
-                } else if (choice >= .35) {
-                    game.computerChoice = "block";
+            } else if(game.opponent.avatarID === 2){
+                //speed
+                if ((100 / game.current.MaxOpponentHealth) * game.current.opponentHealth >= 75) {
+                    if (choice >= .75) {
+                        game.computerChoice = "heavy";
+                    } else if (choice >= .40) {
+                        game.computerChoice = "fast";
+                    } else if (choice >= .30) {
+                        game.computerChoice = "block";
+                    } else {
+                        game.computerChoice = "dodge"
+                    }
+                } else if ((100 / game.current.MaxOpponentHealth) * game.current.opponentHealth >= 50) {
+                    if (choice >= .85) {
+                        game.computerChoice = "heavy";
+                    } else if (choice >= .55) {
+                        game.computerChoice = "fast";
+                    } else if (choice >= .40) {
+                        game.computerChoice = "block";
+                    } else {
+                        game.computerChoice = "dodge"
+                    }
+                } else if ((100 / game.current.MaxOpponentHealth) * game.current.opponentHealth >= 25) {
+                    if (choice >= .90) {
+                        game.computerChoice = "heavy";
+                    } else if (choice >= .55) {
+                        game.computerChoice = "fast";
+                    } else if (choice >= .30) {
+                        game.computerChoice = "block";
+                    } else {
+                        game.computerChoice = "dodge"
+                    }
                 } else {
-                    game.computerChoice = "dodge"
-                }
-            } else if ((100 / game.current.MaxOpponentHealth) * game.current.opponentHealth >= 25) {
-                if (choice >= .90) {
-                    game.computerChoice = "heavy";
-                } else if (choice >= .65) {
-                    game.computerChoice = "fast";
-                } else if (choice >= .40) {
-                    game.computerChoice = "block";
-                } else {
-                    game.computerChoice = "dodge"
+                    if (choice >= .90) {
+                        game.computerChoice = "heavy";
+                    } else if (choice >= .70) {
+                        game.computerChoice = "fast";
+                    } else if (choice >= .40) {
+                        game.computerChoice = "block";
+                    } else {
+                        game.computerChoice = "dodge"
+                    }
                 }
             } else {
-                if (choice >= .90) {
-                    game.computerChoice = "heavy";
-                } else if (choice >= .80) {
-                    game.computerChoice = "fast";
-                } else if (choice >= .40) {
-                    game.computerChoice = "block";
+                //health
+                if ((100 / game.current.MaxOpponentHealth) * game.current.opponentHealth >= 75) {
+                    if (choice >= .75) {
+                        game.computerChoice = "heavy";
+                    } else if (choice >= .50) {
+                        game.computerChoice = "fast";
+                    } else if (choice >= .25) {
+                        game.computerChoice = "block";
+                    } else {
+                        game.computerChoice = "dodge"
+                    }
+                } else if ((100 / game.current.MaxOpponentHealth) * game.current.opponentHealth >= 50) {
+                    if (choice >= .85) {
+                        game.computerChoice = "heavy";
+                    } else if (choice >= .60) {
+                        game.computerChoice = "fast";
+                    } else if (choice >= .35) {
+                        game.computerChoice = "block";
+                    } else {
+                        game.computerChoice = "dodge"
+                    }
+                } else if ((100 / game.current.MaxOpponentHealth) * game.current.opponentHealth >= 25) {
+                    if (choice >= .90) {
+                        game.computerChoice = "heavy";
+                    } else if (choice >= .65) {
+                        game.computerChoice = "fast";
+                    } else if (choice >= .40) {
+                        game.computerChoice = "block";
+                    } else {
+                        game.computerChoice = "dodge"
+                    }
                 } else {
-                    game.computerChoice = "dodge"
+                    if (choice >= .90) {
+                        game.computerChoice = "heavy";
+                    } else if (choice >= .80) {
+                        game.computerChoice = "fast";
+                    } else if (choice >= .40) {
+                        game.computerChoice = "block";
+                    } else {
+                        game.computerChoice = "dodge"
+                    }
                 }
+
             }
+
             game.calcDamage();
         },
         calcDamage: function () {
@@ -227,6 +320,7 @@ $(document).ready(function () {
 
             game.updateHealthDisplay()
 
+
             if (game.current.playerHealth <= 0 || game.current.opponentHealth <= 0) {
                 if (game.current.playerHealth <= 0 && game.current.opponentHealth <= 0) {
                     //PLAYER TIES
@@ -238,7 +332,6 @@ $(document).ready(function () {
 
                 } else if (game.current.playerHealth <= 0) {
                     //PLAYER LOSES
-                    console.log("player loses")
                     game.player.experience += 25;
                     game.opponent.experience += 50;
                     game.checkIfLeveled(game.player)
@@ -246,7 +339,6 @@ $(document).ready(function () {
 
                 } else {
                     //PLAYER WINS
-                    console.log("player wins")
                     game.player.experience += 50;
                     game.opponent.experience += 25;
                     game.checkIfLeveled(game.player)
@@ -316,34 +408,47 @@ $(document).ready(function () {
             }
         },
         skillSubmit: function () {
+            event.preventDefault();
             $("#newSkillsOver").hide();
             $("#newSkillsUnder").hide();
 
-            var speedSkill = parseInt($("#speedSkill").val().trim());
-            var healthSkill = parseInt($("#healthSkill").val().trim())
-            var strenghtSkill = parseInt($("#strengthSkill").val().trim())
+            var speedSkill = parseInt($("#speedSkill").val());
+            var healthSkill = parseInt($("#healthSkill").val())
+            var strengthSkill = parseInt($("#strengthSkill").val())
 
-            if ((speedSkill + healthSkill + strenghtSkill) > game.player.skill_points) {
+            if ((speedSkill + healthSkill + strengthSkill) > game.player.skill_points) {
                 $("#newSkillsOver").show();
-            } else if ((speedSkill + healthSkill + strenghtSkill) < game.player.skill_points) {
+            } else if ((speedSkill + healthSkill + strengthSkill) < game.player.skill_points) {
                 $("#newSkillsUnder").show();
             } else {
-                game.player.speed += speedSkill;
-                game.player.health += healthSkill;
-                game.player.strength += strengthSkill;
+                if (game.current.playerLeveled) {
+                    if(speedSkill === "null") {
+                        speedSkill = 0
+                    }
+                    if(healthSkill === "null") {
+                        healthSkill = 0
+                    }
+                    if(strengthSkill === "null") {
+                        strengthSkill = 0
+                    }
 
-                game.player.skill_points = 0;
-                sessionStorage.setItem("user", game.player)
+                    game.player.speed += speedSkill;
+                    game.player.health += healthSkill;
+                    game.player.strength += strengthSkill;
+                    game.player.skill_points = 0;
+                }
+
+                sessionStorage.setItem("user", JSON.stringify(game.player))
                 game.update(game.player)
-                if ($(this).attr("id", "#leaveRing")) {
+                if ($(this).attr("id") === "leaveRing") {
                     sessionStorage.clear()
                     window.location.replace("/");
                 } else {
+                    // $("#resultModal").modal("toggle")
                     game.initalize()
+                    window.location.reload()
                 }
             }
-
-
         }
     }
 
