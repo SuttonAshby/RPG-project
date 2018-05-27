@@ -1,14 +1,14 @@
-$(document).ready(function() {
+$(document).ready(function () {
     if ($("#lpJumbotron").length < 1) return;
     $("#loginAlert").hide();
     // This may need to be initialized after js files are separated by page
     // sessionStorage.clear();
-    
+
     $("#loginSubmit").click(function () {
         $("#loginAlert").hide();
         username = $("#loginUN").val().trim();
         password = $("#loginPW").val().trim();
-    
+
         var user = {
             username: username,
             password: password
@@ -19,7 +19,7 @@ $(document).ready(function() {
             data: user
         }).then(function (data) {
             console.log(data);
-            if (data === null){
+            if (data === null) {
                 $("#loginAlert").show();
             } else {
                 sessionStorage.setItem("user", JSON.stringify(data));
@@ -30,14 +30,14 @@ $(document).ready(function() {
 })
 
 const opponentLength = random.length;
-                const randomOpponent = [];
-                for (var i = 0; i < opponentLength; i++) {
-                    if (random[i].dataValues.username !== player) {
-                        randomOpponent.push(random[i].dataValues);
-                    }  }
-                const bobby = Math.floor(Math.random() * randomOpponent.length);
-                res.json(randomOpponent[bobby]);
-            });
+const randomOpponent = [];
+for (var i = 0; i < opponentLength; i++) {
+    if (random[i].dataValues.username !== player) {
+        randomOpponent.push(random[i].dataValues);
+    }
+}
+const bobby = Math.floor(Math.random() * randomOpponent.length);
+res.json(randomOpponent[bobby]);
 
 
 
