@@ -1,5 +1,5 @@
 body{
-    background: url('http://subreader.co/wp-content/uploads/2018/01/dark-creepy-basement-at-custom-20131203004210.jpg');
+    background: url('./assets/basement.jpg');
     background-size: 100% auto;
 }
 #lpJumbotron{

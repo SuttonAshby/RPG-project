@@ -457,3 +457,4 @@ $(document).ready(function () {
 
     game.initalize()
 });
+
