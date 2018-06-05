@@ -1,5 +1,5 @@
 body{
-    background: url('./assets/basement.jpg');
+    background: url('../assets/basement.jpg');
     background-size: 100% auto;
 }
 #lpJumbotron{
