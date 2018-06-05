@@ -29,16 +29,3 @@ $(document).ready(function () {
     });
 })
 
-const opponentLength = random.length;
-const randomOpponent = [];
-for (var i = 0; i < opponentLength; i++) {
-    if (random[i].dataValues.username !== player) {
-        randomOpponent.push(random[i].dataValues);
-    }
-}
-const bobby = Math.floor(Math.random() * randomOpponent.length);
-res.json(randomOpponent[bobby]);
-
-
-
-
